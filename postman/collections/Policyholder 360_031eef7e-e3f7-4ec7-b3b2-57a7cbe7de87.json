@@ -15,7 +15,8 @@
                         "id": "fea90455-8a9c-492d-8a91-95b636f9ac43",
                         "exec": [
                             "const res = pm.response.json();",
-                            "",
+                            "const id = res.id;",
+                            "pm.environment.set('id', id)",
                             "pm.test('Status code is 200', () => {",
                             "    pm.response.to.have.status(200);",
                             "});",
@@ -641,7 +642,7 @@
                             "        method: 'get'",
                             "    }, (err, res) => {",
                             "        res = res.json();",
-                            "        pm.expect(res.status).to.eql('no user found');",
+                            "        pm.expect(res.error.header).to.eql('No matching response');",
                             "    });",
                             "});",
                             "",
