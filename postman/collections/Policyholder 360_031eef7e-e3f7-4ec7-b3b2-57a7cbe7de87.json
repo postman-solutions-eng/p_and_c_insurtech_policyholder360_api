@@ -1,0 +1,789 @@
+{
+    "info": {
+        "_postman_id": "1d4bf222-4a7e-4c67-9098-519bd03dde67",
+        "name": "Policyholder 360",
+        "description": "This API is designed to show how you might mock, test document a new API. In this case, we're assuming that we're going to create a basic user management API.\n\nIt has basic CRUD operations listed below.\n\nHit the \"Run in Postman\" button to see the pre-request and test scripts powering this collection.\n\nTry running the collection through the Collection Runner to see how the mock allows us to scope out all our responses and write our tests in advance.\n\n## Summary\n\nHaving undergone the effort of building out our collection in Postman first:\n\n- Using Postman Mocks\n- Writing tests\n \nThis has allowed us to then build out our API to match, meaning we could:\n(Update the `url` in the environment to `http://localhost:3000` and run the following Node API: https://github.com/matt-ball/users-api)\n\n- Debug our API as it was being built\n- Ensure parity with our mocks, meeting the designed blueprint\n- Run tests against the API as it was being built so that it's watertight\n\nAs a result:\n\n- We now have a shareable collection for our API\n- We have beautiful, rich documentation showing how it works\n- We can run our collection in a fully automated fashion and attach it to our CI/CD pipeline\n- We can create a Postman Monitor with no added effort to check for responsiveness and correctness",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "New",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "fea90455-8a9c-492d-8a91-95b636f9ac43",
+                        "exec": [
+                            "const res = pm.response.json();",
+                            "const id = res.id;",
+                            "pm.environment.set('id', id)",
+                            "pm.test('Status code is 200', () => {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test('API response is successful', () => {",
+                            "    pm.expect(res.status).to.eql('success');",
+                            "});",
+                            "",
+                            "pm.test('Created user has correct type of user ID', () => {",
+                            "    pm.expect(res.id).to.be.a('string');",
+                            "});",
+                            "",
+                            "pm.test('Does not expose user password', () => {",
+                            "    pm.expect(res).to.not.have.property('password');",
+                            "});",
+                            "",
+                            "pm.test('Created user has all relevant fields', () => {",
+                            "    pm.expect(res).to.have.all.keys('status', 'id', 'firstName', 'lastName');",
+                            "});",
+                            "",
+                            "pm.test('Created user matches submitted user', () => {",
+                            "    const requestedUser = _.omit(rawToObject(pm.request.body.urlencoded.toString()), 'password');",
+                            "    const response = _.omit(res, ['id', 'status']);",
+                            "    pm.expect(requestedUser).to.eql(response);",
+                            "});",
+                            "",
+                            "pm.sendRequest({",
+                            "    url: `${pm.environment.get('url')}/delete?id=${res.id}`,",
+                            "    method: 'delete'",
+                            "});",
+                            "",
+                            "function rawToObject (str) {",
+                            "    return str.split('&').reduce((prev, curr, i, arr) => {",
+                            "        var p = curr.split('=');",
+                            "        prev[decodeURIComponent(p[0])] = decodeURIComponent(p[1]);",
+                            "        return prev;",
+                            "    }, {});",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "ae8c1b3d-2c54-4dcf-b128-e6325e245454",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                    }
+                ],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "firstName",
+                            "value": "Ben",
+                            "description": "(Required) The user's first name (required)"
+                        },
+                        {
+                            "key": "lastName",
+                            "value": "Smith",
+                            "description": "(Required) The user's last name (required)"
+                        },
+                        {
+                            "key": "password",
+                            "value": "pw",
+                            "description": "(Required) The user's password (required)"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{url}}/create",
+                    "host": [
+                        "{{url}}"
+                    ],
+                    "path": [
+                        "create"
+                    ]
+                },
+                "description": "Creates a new user in the system. The user will be assigned an ID automatically. This can be found in the response."
+            },
+            "response": [
+                {
+                    "id": "fc59c380-851d-4d64-9814-bda3ddf93014",
+                    "name": "Success",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "description": "(Required) ",
+                                "key": "Content-Type",
+                                "value": "application/x-www-form-urlencoded"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "description": "(Required) The user's first name (required)",
+                                    "key": "firstName",
+                                    "value": "Ben"
+                                },
+                                {
+                                    "description": "(Required) The user's last name (required)",
+                                    "key": "lastName",
+                                    "value": "Smith"
+                                },
+                                {
+                                    "description": "(Required) The user's password (required)",
+                                    "key": "password",
+                                    "value": "pw"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{url}}/create",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "create"
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "disabled": false,
+                            "key": "X-Powered-By",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Content-Length",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "ETag",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Date",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Connection",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json; charset=utf-8"
+                        }
+                    ],
+                    "cookie": [],
+                    "responseTime": null,
+                    "body": "{\n \"status\": \"success\",\n \"firstName\": \"Ben\",\n \"lastName\": \"Smith\",\n \"id\": \"0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7\"\n}"
+                },
+                {
+                    "id": "b22d884a-8d89-4153-83e2-08bf6525bdae",
+                    "name": "Bad Request",
+                    "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "description": "(Required) ",
+                                "key": "Content-Type",
+                                "value": "application/x-www-form-urlencoded"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "description": "(Required) The user's first name (required)",
+                                    "key": "firstName",
+                                    "value": "Ben"
+                                },
+                                {
+                                    "description": "(Required) The user's last name (required)",
+                                    "key": "lastName",
+                                    "value": "Smith"
+                                },
+                                {
+                                    "description": "(Required) The user's password (required)",
+                                    "key": "password",
+                                    "value": "pw"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{url}}/create",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "create"
+                            ]
+                        }
+                    },
+                    "status": "Bad Request",
+                    "code": 400,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                        }
+                    ],
+                    "cookie": [],
+                    "responseTime": null,
+                    "body": "{\n \"status\": \"fail\"\n}"
+                }
+            ]
+        },
+        {
+            "name": "Get all users",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "47c431ad-69fb-4930-9a84-c25dfdd22b05",
+                        "exec": [
+                            "const res = pm.response.json();",
+                            "const id = pm.globals.get('id');",
+                            "",
+                            "pm.test('Status code is 200', () => {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test('API determines successful request', () => {",
+                            "    pm.expect(res.status).to.eql('success');",
+                            "})",
+                            "",
+                            "pm.test('At least one user exists', () => {",
+                            "   pm.expect(res.users.length).to.be.greaterThan(1);",
+                            "});",
+                            "",
+                            "pm.test('User has all relevant fields', () => {",
+                            "    res.users.forEach((val, i) => {",
+                            "        if (i > 0) {",
+                            "            pm.expect(val).to.have.all.keys('id', 'firstName', 'lastName');",
+                            "            ",
+                            "        }",
+                            "    });",
+                            "});",
+                            "",
+                            "pm.test('User passwords are not exposed', () => {",
+                            "    res.users.forEach((val) => {",
+                            "       pm.expect(val).to.not.have.property('password');",
+                            "    });",
+                            "});",
+                            "",
+                            "// cleanup",
+                            "pm.globals.unset('id');",
+                            "",
+                            "pm.sendRequest({",
+                            "    url: `${pm.environment.get('url')}/delete?id=${id}`,",
+                            "    method: 'delete'",
+                            "});",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "const template = `",
+                            "    <link rel=\"stylesheet\" href=\"https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css\">",
+                            "    <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>",
+                            "    <script src=\"https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js\"></script>",
+                            "    <div class=\"table\">",
+                            "        <table>",
+                            "            <thead>",
+                            "                <tr>",
+                            "                    <th>User ID</th>",
+                            "                    <th>First Name</th>",
+                            "                    <th>Last Name</th>",
+                            "                </tr>",
+                            "            </thead>",
+                            "            <tbody>",
+                            "            {{#each res.users}}",
+                            "                <tr>",
+                            "                    <td>{{id}}</td>",
+                            "                    <td>{{firstName}}</td>",
+                            "                    <td>{{lastName}}</td>",
+                            "                </tr>",
+                            "            {{/each}}",
+                            "            </tbody>",
+                            "        </table>",
+                            "    </div>",
+                            "",
+                            "    <script>",
+                            "        $('table').DataTable()",
+                            "    </script>",
+                            "`",
+                            "",
+                            "pm.visualizer.set(template, { res });"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "272665f2-01e8-4032-8063-4e77d1b0df62",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{url}}/get?all=true",
+                    "host": [
+                        "{{url}}"
+                    ],
+                    "path": [
+                        "get"
+                    ],
+                    "query": [
+                        {
+                            "key": "all",
+                            "value": "true",
+                            "description": "(Required) "
+                        }
+                    ]
+                },
+                "description": "Get all users in the system."
+            },
+            "response": [
+                {
+                    "id": "7bb5d262-d978-4172-8fab-202c290ce679",
+                    "name": "List of users",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{url}}/get?all=true",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "get"
+                            ],
+                            "query": [
+                                {
+                                    "key": "all",
+                                    "value": "true"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "disabled": false,
+                            "key": "X-Powered-By",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Content-Length",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "ETag",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Date",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Connection",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json; charset=utf-8"
+                        }
+                    ],
+                    "cookie": [],
+                    "responseTime": null,
+                    "body": "{\n    \"status\": \"success\",\n    \"users\": [{\n        \"firstName\": \"{{$randomFirstName}}\",\n        \"lastName\": \"{{$randomLastName}}\",\n        \"id\": \"{{$randomUUID}}\"\n    }, {\n        \"firstName\": \"{{$randomFirstName}}\",\n        \"lastName\": \"{{$randomLastName}}\",\n        \"id\": \"{{$randomUUID}}\"\n    }]\n}\n"
+                }
+            ]
+        },
+        {
+            "name": "Update user",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "54133d85-bf01-4fd9-b247-da2eaeb71def",
+                        "exec": [
+                            "const res = pm.response.json();",
+                            "const id = pm.request.url.query.get('id');",
+                            "const firstName = pm.request.body.urlencoded.get('firstName');",
+                            "",
+                            "pm.test('Status code is 200', () => {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "if (res.status === 'success') {",
+                            "    pm.test('User matches requested user', () => {",
+                            "        pm.expect(res.id).to.eql(id);",
+                            "    });",
+                            "    ",
+                            "    pm.test('User has correct type of user ID', () => {",
+                            "        pm.expect(res.id).to.be.a('string');",
+                            "    });",
+                            "    ",
+                            "    pm.test('User has all relevant fields', () => {",
+                            "        pm.expect(res).to.have.all.keys('status', 'id', 'firstName', 'lastName');",
+                            "    });",
+                            "    ",
+                            "    pm.test('Does not expose user password', () => {",
+                            "        pm.expect(res).to.not.have.property('password');",
+                            "    });",
+                            "    ",
+                            "    pm.test('First name is updated to: ' + firstName, () => {",
+                            "        pm.expect(res.firstName).to.eql(firstName);",
+                            "    });",
+                            "}",
+                            "",
+                            "else if (res.status === 'no user found') {",
+                            "    pm.test('Lookup was against correct user', () => {",
+                            "        pm.expect(res.id).to.eql(id);",
+                            "    });",
+                            "}",
+                            "",
+                            "else {",
+                            "    pm.test(res.status).to.eql('invalid request');",
+                            "}",
+                            "",
+                            "// cleanup",
+                            "pm.globals.unset('id');",
+                            "",
+                            "pm.sendRequest({",
+                            "    url: `${pm.environment.get('url')}/delete?id=${id}`,",
+                            "    method: 'delete'",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "b3b636a8-4425-4233-94cf-d314ff727e27",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                    }
+                ],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "firstName",
+                            "value": "Benjamin",
+                            "description": "(Required) The user's new first name"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "{{url}}/update?id={{id}}",
+                    "host": [
+                        "{{url}}"
+                    ],
+                    "path": [
+                        "update"
+                    ],
+                    "query": [
+                        {
+                            "key": "id",
+                            "value": "{{id}}",
+                            "description": "(Required) The user's ID (required)"
+                        }
+                    ]
+                },
+                "description": "Send the keys that you'd like to update, this can be one or more of `firstName`, `lastName` and `password`."
+            },
+            "response": [
+                {
+                    "id": "f7678fda-db4b-4d08-a129-9aabc2293958",
+                    "name": "User updated",
+                    "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "description": "(Required) ",
+                                "key": "Content-Type",
+                                "value": "application/x-www-form-urlencoded"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "description": "(Required) The user's new first name",
+                                    "key": "firstName",
+                                    "value": "Benjamin"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{url}}/update?id={{id}}",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "update"
+                            ],
+                            "query": [
+                                {
+                                    "key": "id",
+                                    "value": "{{id}}"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "disabled": false,
+                            "key": "X-Powered-By",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Content-Length",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "ETag",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Date",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Connection",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json; charset=utf-8"
+                        }
+                    ],
+                    "cookie": [],
+                    "responseTime": null,
+                    "body": "{\n \"status\": \"success\",\n \"firstName\": \"Benjamin\",\n \"lastName\": \"Smith\",\n \"id\": \"0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7\"\n}"
+                }
+            ]
+        },
+        {
+            "name": "Delete user",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "id": "d97c21d3-9fa2-488a-8f66-a0144bca18b0",
+                        "exec": [
+                            "const response = pm.response;",
+                            "const id = pm.globals.get('id');",
+                            "",
+                            "pm.test('Status code is 200', () => {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "",
+                            "pm.test('Operation is successful', () => {",
+                            "    const res = response.json();",
+                            "    pm.expect(res.status).to.eql('success');",
+                            "});",
+                            "",
+                            "pm.test('User matches requested user', () => {",
+                            "    const res = response.json();",
+                            "    pm.globals.set(\"apiKey\", res.id);",
+                            "    pm.expect(res.id).to.eql(id);",
+                            "});",
+                            "",
+                            "pm.test('User can no longer be found', () => {",
+                            "    pm.sendRequest({",
+                            "        url: `${pm.environment.get('url')}/get?id=${id}`,",
+                            "        header: 'x-mock-response-name:Get user by ID (no user found)',",
+                            "        method: 'get'",
+                            "    }, (err, res) => {",
+                            "        res = res.json();",
+                            "        pm.expect(res.error.header).to.eql('No matching response');",
+                            "    });",
+                            "});",
+                            "",
+                            "// cleanup",
+                            "pm.globals.unset('id');"
+                        ],
+                        "type": "text/javascript"
+                    }
+                },
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "id": "95469099-1537-4aef-bb53-207e3de1c0df",
+                        "exec": [
+                            "const firstName = pm.variables.get('firstName');",
+                            "const lastName = pm.variables.get('lastName');",
+                            "const password = pm.variables.get('password');",
+                            "",
+                            "pm.sendRequest({",
+                            "    url: `${pm.environment.get('url')}/create`,",
+                            "    method: 'POST',",
+                            "    header: 'Content-Type:application/x-www-form-urlencoded',",
+                            "    body: {",
+                            "        mode: 'raw',",
+                            "        raw: `firstName=${firstName}&lastName=${lastName}&password=${password}`",
+                            "    }",
+                            "}, (err, res) => {",
+                            "    res = res.json();",
+                            "    pm.globals.set('id', res.id);",
+                            "});"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "id": "2be7f4b1-37c9-40c9-86ad-9b5e5f4a7b55",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{url}}/delete?id={{id}}",
+                    "host": [
+                        "{{url}}"
+                    ],
+                    "path": [
+                        "delete"
+                    ],
+                    "query": [
+                        {
+                            "key": "id",
+                            "value": "{{id}}",
+                            "description": "(Required) The user's ID"
+                        }
+                    ]
+                },
+                "description": "Deletes a user from the system by `id`."
+            },
+            "response": [
+                {
+                    "id": "f012ed37-5c06-4251-8c3a-e3ea4f43c497",
+                    "name": "User deleted",
+                    "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "description": "(Required) ",
+                                "key": "Content-Type",
+                                "value": "application/x-www-form-urlencoded"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{url}}/delete?id={{id}}",
+                            "host": [
+                                "{{url}}"
+                            ],
+                            "path": [
+                                "delete"
+                            ],
+                            "query": [
+                                {
+                                    "key": "id",
+                                    "value": "{{id}}"
+                                }
+                            ]
+                        }
+                    },
+                    "status": "OK",
+                    "code": 200,
+                    "_postman_previewlanguage": "json",
+                    "header": [
+                        {
+                            "disabled": false,
+                            "key": "X-Powered-By",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Content-Length",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "ETag",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Date",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "disabled": false,
+                            "key": "Connection",
+                            "value": "",
+                            "description": ""
+                        },
+                        {
+                            "key": "Content-Type",
+                            "value": "application/json; charset=utf-8"
+                        }
+                    ],
+                    "cookie": [],
+                    "responseTime": null,
+                    "body": "{\n \"status\": \"success\",\n \"id\": \"0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7\"\n}"
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "id": "0c4bc461-8f76-46ea-ae03-e8a7f4ff8310",
+            "key": "baseUrl",
+            "value": "https://81cfad21-ff8a-41a7-976c-3b9eb0d6ad6c.mock.pstmn.io",
+            "type": "string"
+        }
+    ]
+}
