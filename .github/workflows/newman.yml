@@ -1,0 +1,22 @@
+name: Newman Run
+
+on:
+  pull_request:
+    branches:
+    - master
+  workflow_dispatch:
+    inputs:
+      newman:
+        description: 'Run'
+        required: false
+        default: 'Run action'
+
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: matt-ball/newman-action@master
+        with:
+          collection: postman/collections/Policyholder 360_031eef7e-e3f7-4ec7-b3b2-57a7cbe7de87.json
+          environment: postman/environments/policyholder.json
