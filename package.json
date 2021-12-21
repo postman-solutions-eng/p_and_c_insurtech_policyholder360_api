@@ -1,0 +1,21 @@
+{
+   "name":"tests",
+   "version":"1.0.0",
+   "description":"tests",
+   "directories":{
+      "tests":"postman/collections",
+      "environments":"postman/environments"
+   },
+   "scripts":{
+      "testScript":"newman run postman/collections/Policyholder 360_031eef7e-e3f7-4ec7-b3b2-57a7cbe7de87.json -e postman/environments/policyholder.json"
+   },
+   "repository":{
+      "type":"git",
+      "url":"https://github.com/postman-solutions-eng/p_and_c_insurtech_policyholder360_api"
+   },
+   "author":"CH",
+   "dependencies":{
+      "newman":"^5.2.0",
+      "npm":"^6.14.8"
+   }
+}
