@@ -778,11 +778,39 @@
             ]
         }
     ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "id": "0e24122b-48ef-448a-af30-4b99d7738af4",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "id": "4a581e63-de7e-4924-b3a8-c80ccf8dff93",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
     "variable": [
         {
-            "id": "0c4bc461-8f76-46ea-ae03-e8a7f4ff8310",
+            "id": "e15c9220-422b-4174-9562-cb5ca9a17ba6",
             "key": "baseUrl",
             "value": "https://81cfad21-ff8a-41a7-976c-3b9eb0d6ad6c.mock.pstmn.io",
+            "type": "string"
+        },
+        {
+            "id": "7a2a879f-27c7-4bbf-b3d1-7309afbd61ba",
+            "key": "test",
+            "value": "this",
             "type": "string"
         }
     ]
