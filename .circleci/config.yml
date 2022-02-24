@@ -7,8 +7,9 @@ orbs:
   newman: postman/newman@0.0.2
 
 jobs:
-  executor: newman/postman-newman-docker
   newman-collection-run:
+    docker:
+      - image: newman/postman-newman-docker
     steps:
       - checkout
       - newman/newman-run:
