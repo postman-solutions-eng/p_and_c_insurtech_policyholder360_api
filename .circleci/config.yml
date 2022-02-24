@@ -8,14 +8,11 @@ orbs:
 
 jobs:
   newman-collection-run:
-    executor: newman/postman-newman-docker
-    env:
-          POSTMAN_API_KEY: ${{ secrets.INSURANCE_API_KEY }}
     steps:
       - checkout
       - newman/newman-run:
-          collection: https://api.getpostman.com/collections/16873021-1d4bf222-4a7e-4c67-9098-519bd03dde67?apikey=$POSTMAN_API_KEY
-          environment: https://api.getpostman.com/environments/16871434-02d5b697-755d-4540-b002-5f1896aa7804?apikey=$POSTMAN_API_KEY
+          collection: https://api.getpostman.com/collections/16873021-1d4bf222-4a7e-4c67-9098-519bd03dde67?apikey=$INSURANCE_API_KEY
+          environment: https://api.getpostman.com/environments/16871434-02d5b697-755d-4540-b002-5f1896aa7804?apikey=$INSURANCE_API_KEY
 
    
 
