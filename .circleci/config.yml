@@ -9,7 +9,7 @@ orbs:
 jobs:
   newman-collection-run:
     docker:
-      - image: newman/postman-newman-docker
+      - image: cimg/base:2021.04
     steps:
       - checkout
       - newman/newman-run:
