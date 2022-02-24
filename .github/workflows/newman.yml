@@ -18,5 +18,5 @@ jobs:
       - uses: actions/checkout@master
       - uses: matt-ball/newman-action@master
         with:
-          collection: 'postman/collections/Policyholder 360_031eef7e-e3f7-4ec7-b3b2-57a7cbe7de87.json'
+          collection: "postman/collections/Policyholder' '360_031eef7e-e3f7-4ec7-b3b2-57a7cbe7de87.json"
           environment: postman/environments/policyholder.json
