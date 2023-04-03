@@ -500,7 +500,7 @@
 					"urlencoded": [
 						{
 							"key": "firstName",
-							"value": "Benjamin",
+							"value": "Ben",
 							"description": "(Required) The user's new first name"
 						}
 					]
