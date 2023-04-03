@@ -150,7 +150,6 @@
 					"status": "OK",
 					"code": 200,
 					"_postman_previewlanguage": "json",
-					"_postman_previewtype": "html",
 					"header": [
 						{
 							"disabled": false,
@@ -188,7 +187,6 @@
 						}
 					],
 					"cookie": [],
-					"responseTime": null,
 					"body": "{\n \"status\": \"success\",\n \"firstName\": \"Ben\",\n \"lastName\": \"Smith\",\n \"id\": \"0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7\"\n}"
 				},
 				{
@@ -236,7 +234,6 @@
 					"status": "Bad Request",
 					"code": 400,
 					"_postman_previewlanguage": "json",
-					"_postman_previewtype": "html",
 					"header": [
 						{
 							"key": "Content-Type",
@@ -244,7 +241,6 @@
 						}
 					],
 					"cookie": [],
-					"responseTime": null,
 					"body": "{\n \"status\": \"fail\"\n}"
 				}
 			]
@@ -386,7 +382,6 @@
 					"status": "OK",
 					"code": 200,
 					"_postman_previewlanguage": "json",
-					"_postman_previewtype": "html",
 					"header": [
 						{
 							"disabled": false,
@@ -424,7 +419,6 @@
 						}
 					],
 					"cookie": [],
-					"responseTime": null,
 					"body": "{\n    \"status\": \"success\",\n    \"users\": [{\n        \"firstName\": \"{{$randomFirstName}}\",\n        \"lastName\": \"{{$randomLastName}}\",\n        \"id\": \"{{$randomUUID}}\"\n    }, {\n        \"firstName\": \"{{$randomFirstName}}\",\n        \"lastName\": \"{{$randomLastName}}\",\n        \"id\": \"{{$randomUUID}}\"\n    }]\n}\n"
 				}
 			]
@@ -478,12 +472,12 @@
 							"}",
 							"",
 							"// cleanup",
-							"pm.globals.unset('id');",
+							"// pm.globals.unset('id');",
 							"",
-							"pm.sendRequest({",
-							"    url: `${pm.environment.get('url')}/delete?id=${id}`,",
-							"    method: 'delete'",
-							"});"
+							"// pm.sendRequest({",
+							"//     url: `${pm.environment.get('url')}/delete?id=${id}`,",
+							"//     method: 'delete'",
+							"// });"
 						],
 						"type": "text/javascript"
 					}
@@ -571,7 +565,6 @@
 					"status": "OK",
 					"code": 200,
 					"_postman_previewlanguage": "json",
-					"_postman_previewtype": "html",
 					"header": [
 						{
 							"disabled": false,
@@ -609,8 +602,7 @@
 						}
 					],
 					"cookie": [],
-					"responseTime": null,
-					"body": "{\n \"status\": \"success\",\n \"firstName\": \"Benjamin\",\n \"lastName\": \"Smith\",\n \"id\": \"0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7\"\n}"
+					"body": "{\n \"status\": \"success\",\n \"firstName\": \"Ben\",\n \"lastName\": \"Smith\",\n \"id\": \"0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7\"\n}"
 				}
 			]
 		},
@@ -740,7 +732,6 @@
 					"status": "OK",
 					"code": 200,
 					"_postman_previewlanguage": "json",
-					"_postman_previewtype": "html",
 					"header": [
 						{
 							"disabled": false,
@@ -778,7 +769,6 @@
 						}
 					],
 					"cookie": [],
-					"responseTime": null,
 					"body": "{\n \"status\": \"success\",\n \"id\": \"0729d37c-ef9f-4ffa-8f71-a6eedf1f95b7\"\n}"
 				}
 			]
