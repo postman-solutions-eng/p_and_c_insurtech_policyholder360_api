@@ -101,6 +101,22 @@ paths:
                 $ref: '#/components/schemas/Newuser%28failure%29'
               example:
                 status: fail
+        401:
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Newuser%28failure%29'
+              example:
+                status: fail
+        403:
+          description: Permission denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Newuser%28failure%29'
+              example:
+                status: fail
         500: 
           description: Internal server error
       deprecated: false
